@@ -1,0 +1,15 @@
+video {
+  width: 100%;
+  position: relative;
+  top: -9rem;
+}
+
+.video {
+  height: 350px;
+  overflow: hidden;
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}

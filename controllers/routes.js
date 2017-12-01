@@ -1,14 +1,18 @@
-const express = require('express');
-const multiparty = require('multiparty');
-const upload = require('./uploads');
-const url = require('url');
-const rimraf = require('rimraf');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 
-/* GET the different pages */
-router.get('/', function (req, res) {
+var db = require('./db_connect');
+
+router.get('/',  function (req, res) {
   res.render('dist/index.html');
-});
+ });
+
+router.post('/atom', db.getAllDeveloper);
+router.post('/comment', db.setDeveloper);
+// router.get('/api/puppies/:id', db.getSinglePuppy);
+// router.post('/api/puppies', db.createPuppy);
+// router.put('/api/puppies/:id', db.updatePuppy);
+// router.delete('/api/puppies/:id', db.removePuppy);
 
 
 module.exports = router;

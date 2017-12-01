@@ -4,12 +4,13 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "db-migrate": "(cd controllers && psql -f atom_db.sql)",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server-run": "node server.js"
+    "server-start": "ng build && node server.js"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +26,10 @@
     "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
+    "html": "^1.0.0",
+    "http": "0.0.0",
     "pg": "^7.4.0",
+    "pg-promise": "^5.9.7",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

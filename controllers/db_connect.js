@@ -1,26 +1,52 @@
-const pg = require('pg');
-const path = require('path');
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/brand_db';
+const promise = require('bluebird');
 
-const exec = pg.connect(connectionString, (err, client, done) => {
-  // Handle connection errors
-  if(err) {
-    done();
-    console.log(err);
-    return res.status(500).json({success: false, data: err});
-  }
-  // SQL Query > Insert Data
-  client.query('INSERT INTO items(text, complete) values($1, $2)',
-    [data.text, data.complete]);
-  // SQL Query > Select Data
-  const query = client.query('SELECT * FROM items ORDER BY id ASC');
-  // Stream results back one row at a time
-  query.on('row', (row) => {
-    results.push(row);
-  });
-  // After all data is returned, close connection and return results
-  query.on('end', () => {
-    done();
-    return res.json(results);
-  });
-});
+const options = {
+  // Initialization Options
+  promiseLib: promise
+};
+
+const cn = {
+  host: 'localhost',
+  port: 5432,
+  database: 'atom_db',
+  user: 'atom',
+  password: 'atom'
+};
+
+const pgp = require('pg-promise')(options);
+const db = pgp(cn);
+
+// add query getAllDevelopers
+function getAllDeveloper(req, res, next) {
+  db.any('select * from developers')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL puppies'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function setDeveloper(req, res, next) {
+  db.none('insert into developers(name) values(\'Victor\')')
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted one puppy'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+module.exports = {
+  getAllDeveloper: getAllDeveloper,
+  setDeveloper: setDeveloper
+};
